@@ -103,15 +103,18 @@ function renderTable(cam) {
 
 	cams.forEach(function(cam) {
 		let camName = document.createElement('th');
-		camName.textContent = `${cam.brand} ${cam.model} ${cam.id}`;
+		camName.textContent = `${cam.brand} ${cam.model} #${cam.id}`;
 		id.appendChild(camName);
 
 		let camColor = document.createElement('td');
-		camColor.style.backGround = cam.color;
+		let colorCell = document.createElement('div');
+		colorCell.classList.add('color-cell');
+		colorCell.style.backgroundColor = cam.color;
+		camColor.appendChild(colorCell);
 		color.appendChild(camColor);
 
 		let camRange = document.createElement('td');
-		camRange.textContent = `${cam.rangeMin}mm - ${cam.rangeMax}mm`;
+		camRange.textContent = `${cam.rangeMin} mm - ${cam.rangeMax} mm`;
 		range.appendChild(camRange);
 
 		let camWeight = document.createElement('td');
@@ -124,4 +127,34 @@ function renderTable(cam) {
 	});
 }
 
+function renderBrands(cams) {
+	let brandSelector = document.querySelector('#brand-selector');
+	Object.keys(cams).forEach(function(brand) {
+		let brandOption = document.createElement('option');
+		brandOption.textContent = brand;
+		brandSelector.appendChild(brandOption);
+	});
+}
+
+function renderModels(brand, cams) {
+	let modelSelector = document.querySelector('#model-selector');
+	Object.keys(cams[brand]).forEach(function(model) {
+		let modelOption = document.createElement('option');
+		modelOption.textContent = model;
+		modelSelector.appendChild(modelOption);
+	});
+}
+
+function renderSizes(brand, model, cams) {
+	let sizeSelector = document.querySelector('#size-selector');
+	Object.keys(cams[brand][model]).forEach(function(size) {
+		let sizeOption = document.createElement('option');
+		sizeOption.textContent = size;
+		sizeSelector.appendChild(sizeOption);
+	});
+}
+
+renderBrands(camData);
+renderModels('Black Diamond', camData);
+renderSizes('Black Diamond', 'X4', camData);
 renderTable(testCam);

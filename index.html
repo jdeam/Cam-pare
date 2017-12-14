@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cam-pare</title>
+    <title>Cam•pare</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
     <link rel="stylesheet" href="style.css">
@@ -12,12 +12,44 @@
   <section class="section">
     <div class="container">
       <h1 class="title is-size-1">
-        Cam-pare
+        Cam•pare
       </h1>
     </div>
   </section>
+  <section>
+    <div class="container cam-selector">
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <select id="brand-selector">
+              <option value="" disabled selected>Brand</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <select id="model-selector">
+              <option value="" disabled selected>Model</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <select id="size-selector">
+              <option value="" disabled selected>Size</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
     <div class="container">
-      <table class="table">
+      <table class="table is-hoverable">
         <thead>
           <tr id="cam-id">
             <th></th>
@@ -39,7 +71,6 @@
         </tbody>
       </table>
     </div>
-  <section>
   </section>
   <script src='campare.js'></script>
   </body>

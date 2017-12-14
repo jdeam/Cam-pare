@@ -1,0 +1,18 @@
+.color-cell {
+  border-radius: 5px;
+  height: 23px;
+  width: 80%;
+  margin: 0 10% 0 10%;
+}
+
+.cam-selector {
+  display: flex;
+}
+
+td {
+  width: 240px;
+}
+
+.control {
+  margin-right: 5px;
+}
