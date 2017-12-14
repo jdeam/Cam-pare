@@ -1,4 +1,4 @@
-const camData = new Map();
+const camData = {};
 
 function Cam (brand, model, id, color, rangeMin, rangeMax, weight, strength) {
 	this.brand = brand;
@@ -14,27 +14,44 @@ function Cam (brand, model, id, color, rangeMin, rangeMax, weight, strength) {
 }
 
 function addCam (cam) {
-	let camBrand = cam.brand;
-	let camModel = cam.model;
-	let camId = cam.id;
 	let camNotAdded = true;
 
 	while (camNotAdded) {
-		if (camData.has(camBrand)) {
-			if (camData.get(camBrand).has(camModel)) {
-        camData.get(camBrand).get(camModel).set(camId, cam);
+		if (cam.brand in camData) {
+			if (cam.model in camData[cam.brand]) {
+        camData[cam.brand][cam.model][cam.id] = cam;
         camNotAdded = false;
 			} else {
-				camData.get(camBrand).set(camModel, new Map());
+				camData[cam.brand][cam.model] = {};
 			}
 		} else {
-			camData.set(camBrand, new Map());
+			camData[cam.brand] = {};
 		}
 	}
 }
 
 function findCam (brand, model, id) {
-	return camData.get(brand).get(model).get(id);
+	return camData[brand][model][id];
+}
+
+function findClosest(cam) {
+	let result = [];
+	for (let brand in camData) {
+		for (let model in camData[brand]) {
+			let closest;
+			for (let id in camData[brand][model]) {
+				let temp = camData[brand][model][id];
+				if (closest===undefined) closest = temp;
+				if (Math.abs(temp.midRange-cam.midRange)<Math.abs(closest.midRange-cam.midRange)) {
+					closest = temp;
+				}
+			}
+			if (Math.abs(closest.midRange-cam.midRange) < 0.2*cam.rangeTotal && closest !== cam) {
+				result.push(closest);
+			}
+		}
+	}
+	return result;
 }
 
 addCam(new Cam('Black Diamond', 'X4', '0.1 (Red)', 'Red', 8.4, 13.8, 51, 5));
@@ -72,3 +89,5 @@ addCam(new Cam ('Totem', 'Basic', '0.50 (Blue)', 'Blue', 11.2, 17.4, 56, 5));
 addCam(new Cam ('Totem', 'Basic', '0.65 (Green)', 'Green', 13.6, 21.4, 60, 7));
 addCam(new Cam ('Totem', 'Basic', '0.75 (Yellow)', 'Yellow', 16.6, 26.1, 68, 9));
 addCam(new Cam ('Totem', 'Basic', '0.95 (Red)', 'Red', 19.9, 31.6, 72, 11));
+
+let testCam = findCam('Black Diamond', 'X4', '0.2 (Yellow)');
