@@ -34,8 +34,8 @@ function findCam (brand, model, id) {
 	return camData[brand][model][id];
 }
 
-function findClosest(cam) {
-	let result = [];
+function findMatches(cam) {
+	let result = [cam];
 	for (let brand in camData) {
 		for (let model in camData[brand]) {
 			let closest;
@@ -91,3 +91,37 @@ addCam(new Cam ('Totem', 'Basic', '0.75 (Yellow)', 'Yellow', 16.6, 26.1, 68, 9))
 addCam(new Cam ('Totem', 'Basic', '0.95 (Red)', 'Red', 19.9, 31.6, 72, 11));
 
 let testCam = findCam('Black Diamond', 'X4', '0.2 (Yellow)');
+
+function renderTable(cam) {
+	let cams = findMatches(cam);
+
+	let id = document.querySelector('#cam-id');
+	let color = document.querySelector('#cam-color');
+	let range = document.querySelector('#cam-range');
+	let weight = document.querySelector('#cam-weight');
+	let strength = document.querySelector('#cam-strength');
+
+	cams.forEach(function(cam) {
+		let camName = document.createElement('th');
+		camName.textContent = `${cam.brand} ${cam.model} ${cam.id}`;
+		id.appendChild(camName);
+
+		let camColor = document.createElement('td');
+		camColor.style.backGround = cam.color;
+		color.appendChild(camColor);
+
+		let camRange = document.createElement('td');
+		camRange.textContent = `${cam.rangeMin}mm - ${cam.rangeMax}mm`;
+		range.appendChild(camRange);
+
+		let camWeight = document.createElement('td');
+		camWeight.textContent = `${cam.weight} grams`;
+		weight.appendChild(camWeight);
+
+		let camStrength = document.createElement('td');
+		camStrength.textContent = `${cam.strength} kN`;
+		strength.appendChild(camStrength);
+	});
+}
+
+renderTable(testCam);
