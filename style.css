@@ -1,3 +1,7 @@
+h1 {
+  font-size: 40px;
+}
+
 .color-cell {
   border-radius: 5px;
   height: 23px;
@@ -10,10 +14,15 @@
   height: 37px;
 }
 
+.control {
+  margin-right: 5px;
+}
+
 td {
   width: 240px;
 }
 
-.control {
-  margin-right: 5px;
+img {
+  height: 240px;
+  width: 120px;
 }
