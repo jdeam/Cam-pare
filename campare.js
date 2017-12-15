@@ -1,3 +1,15 @@
+const table = document.querySelector('table');
+const brandSelector = document.querySelector('#brand-selector');
+const modelSelector = document.querySelector('#model-selector');
+const sizeSelector = document.querySelector('#size-selector');
+const submitButton = document.querySelector('#submit');
+let currentResults = JSON.parse(localStorage.getItem('currentResults')) || [];
+
+renderBrands(camData);
+if (currentResults.length) {
+	renderTable(currentResults);
+}
+
 function findCam (brand, model, id) {
 	return camData[brand][model][id];
 }
@@ -19,10 +31,17 @@ function findMatches(cam) {
 			}
 		}
 	}
+	result.sort(function(a, b) {
+		if (Math.abs(a.midRange-cam.Midrange)<Math.abs(b.midRange-cam.midRange)) {
+			return -1;
+		} else if (Math.abs(a.midRange-cam.Midrange)>Math.abs(b.midRange-cam.midRange)) {
+			return 1;
+		} else {
+			return 0;
+		}
+	});
 	return [cam].concat(result);
 }
-
-let table = document.querySelector('table');
 
 function renderEmptyTable() {
   while (table.children.length>0) {
@@ -75,13 +94,11 @@ function renderEmptyTable() {
   table.appendChild(tbody);
 }
 
-function renderTable(cam) {
+function renderTable(cams) {
 	while (table.children.length>0) {
 		table.removeChild(table.lastChild);
 	}
 	renderEmptyTable();
-
-	let cams = findMatches(cam);
 
 	let id = document.querySelector('#cam-id');
 	let img = document.querySelector('#cam-img');
@@ -119,7 +136,6 @@ function renderTable(cam) {
 	});
 }
 
-let brandSelector = document.querySelector('#brand-selector');
 function renderBrands(cams) {
 	Object.keys(cams).forEach(function(brand) {
 		let brandOption = document.createElement('option');
@@ -128,7 +144,6 @@ function renderBrands(cams) {
 	});
 }
 
-let modelSelector = document.querySelector('#model-selector');
 function renderModels(brand, cams) {
 	Object.keys(cams[brand]).forEach(function(model) {
 		let modelOption = document.createElement('option');
@@ -137,7 +152,6 @@ function renderModels(brand, cams) {
 	});
 }
 
-let sizeSelector = document.querySelector('#size-selector');
 function renderSizes(brand, model, cams) {
 	Object.keys(cams[brand][model]).forEach(function(size) {
 		let sizeOption = document.createElement('option');
@@ -145,8 +159,6 @@ function renderSizes(brand, model, cams) {
 		sizeSelector.appendChild(sizeOption);
 	});
 }
-
-let submitButton = document.querySelector('#submit');
 
 function clearMenu(menu) {
 	let firstOption = menu.querySelector('option');
@@ -173,8 +185,22 @@ submitButton.addEventListener('click', function(event) {
 	event.preventDefault();
 	if (brandSelector.value && modelSelector.value && sizeSelector.value) {
 		let cam = findCam(brandSelector.value, modelSelector.value, sizeSelector.value);
-		renderTable(cam);
+		let cams = findMatches(cam);
+		renderTable(cams);
+		currentResults = cams;
+		localStorage.setItem('currentResults', JSON.stringify(currentResults));
 	}
 });
 
-renderBrands(camData);
+table.addEventListener('mouseenter', function(event) {
+	let ids = ['cam-range', 'cam-weight', 'cam-strength', 'cam-price']
+	if (ids.includes(event.target.id)) {
+		event.target.classList.add('is-selected');
+	}
+}, true);
+
+table.addEventListener('mouseleave', function(event) {
+	if (event.target.classList.contains('is-selected')) {
+		event.target.classList.remove('is-selected');
+	}
+}, true);
