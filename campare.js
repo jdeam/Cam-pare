@@ -65,6 +65,13 @@ function renderEmptyTable() {
   tr.appendChild(th);
   tbody.appendChild(tr);
 
+	tr = document.createElement('tr');
+	tr.id = 'cam-price';
+	th = document.createElement('th');
+	th.textContent = 'Price';
+	tr.appendChild(th);
+  tbody.appendChild(tr);
+
   table.appendChild(tbody);
 }
 
@@ -81,6 +88,7 @@ function renderTable(cam) {
 	let range = document.querySelector('#cam-range');
 	let weight = document.querySelector('#cam-weight');
 	let strength = document.querySelector('#cam-strength');
+	let price = document.querySelector('#cam-price');
 
 	cams.forEach(function(cam) {
 		let camName = document.createElement('th');
@@ -104,6 +112,10 @@ function renderTable(cam) {
 		let camStrength = document.createElement('td');
 		camStrength.textContent = `${cam.strength} kN`;
 		strength.appendChild(camStrength);
+
+		let camPrice = document.createElement('td');
+		camPrice.textContent = `$${cam.price}`;
+		price.appendChild(camPrice);
 	});
 }
 
