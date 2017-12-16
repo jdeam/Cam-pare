@@ -259,13 +259,14 @@ function findCheapest(cams) {
 }
 
 table.addEventListener('mouseenter', function(event) {
+	let imageNodes = document.querySelectorAll('img');
 	let ids = ['cam-range', 'cam-weight', 'cam-strength', 'cam-price']
 	if (ids.includes(event.target.id)) {
 		if (event.target.id==='cam-range') {
 			let widest = findWidestRange(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (widest.includes(i)) {
-					node.style.textDecoration = 'underline';
+					imageNodes[i-1].style.boxShadow = '0 0 4px';
 					node.style.fontWeight = 'bold'
 				}
 			});
@@ -274,7 +275,7 @@ table.addEventListener('mouseenter', function(event) {
 			let lightest = findLightest(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (lightest.includes(i)) {
-					node.style.textDecoration = 'underline';
+					imageNodes[i-1].style.boxShadow = '0 0 4px';
 					node.style.fontWeight = 'bold';
 				}
 			});
@@ -283,7 +284,7 @@ table.addEventListener('mouseenter', function(event) {
 			let strongest = findStrongest(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (strongest.includes(i)) {
-					node.style.textDecoration = 'underline';
+					imageNodes[i-1].style.boxShadow = '0 0 4px';
 					node.style.fontWeight = 'bold';
 				}
 			});
@@ -292,7 +293,7 @@ table.addEventListener('mouseenter', function(event) {
 			let cheapest = findCheapest(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (cheapest.includes(i)) {
-					node.style.textDecoration = 'underline';
+					imageNodes[i-1].style.boxShadow = '0 0 4px';
 					node.style.fontWeight = 'bold';
 				}
 			});
@@ -303,10 +304,13 @@ table.addEventListener('mouseenter', function(event) {
 }, true);
 
 table.addEventListener('mouseleave', function(event) {
+	let imageNodes = document.querySelectorAll('img');
 	if (event.target.classList.contains('is-selected')) {
 		event.target.childNodes.forEach(function(node) {
-			node.style.textDecoration = '';
 			node.style.fontWeight = '';
+		});
+		imageNodes.forEach(function(node) {
+			node.style.boxShadow = '';
 		});
 		event.target.classList.remove('is-selected');
 	}

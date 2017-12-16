@@ -26,6 +26,7 @@ th {
 img {
   height: 200px;
   width: 100px;
+  border-radius: 4px;
 }
 
 .container {
@@ -33,5 +34,5 @@ img {
 }
 
 .my-section {
-  margin: 40px 0 40px 0;
+  margin: 35px 0 35px 0;
 }
