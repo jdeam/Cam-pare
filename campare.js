@@ -266,7 +266,7 @@ table.addEventListener('mouseenter', function(event) {
 			let widest = findWidestRange(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (widest.includes(i)) {
-					imageNodes[i-1].style.boxShadow = '0 0 4px';
+					imageNodes[i-1].style.boxShadow = '0 0 4px gray';
 					node.style.fontWeight = 'bold'
 				}
 			});
@@ -275,7 +275,7 @@ table.addEventListener('mouseenter', function(event) {
 			let lightest = findLightest(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (lightest.includes(i)) {
-					imageNodes[i-1].style.boxShadow = '0 0 4px';
+					imageNodes[i-1].style.boxShadow = '0 0 4px gray';
 					node.style.fontWeight = 'bold';
 				}
 			});
@@ -284,7 +284,7 @@ table.addEventListener('mouseenter', function(event) {
 			let strongest = findStrongest(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (strongest.includes(i)) {
-					imageNodes[i-1].style.boxShadow = '0 0 4px';
+					imageNodes[i-1].style.boxShadow = '0 0 4px gray';
 					node.style.fontWeight = 'bold';
 				}
 			});
@@ -293,7 +293,7 @@ table.addEventListener('mouseenter', function(event) {
 			let cheapest = findCheapest(currentResults).map(i => i+1);
 			event.target.childNodes.forEach(function(node, i) {
 				if (cheapest.includes(i)) {
-					imageNodes[i-1].style.boxShadow = '0 0 4px';
+					imageNodes[i-1].style.boxShadow = '0 0 4px gray';
 					node.style.fontWeight = 'bold';
 				}
 			});

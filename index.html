@@ -17,40 +17,52 @@
     </div>
   </section>
   <section>
-    <div class="container cam-selector">
-      <div class="field">
-        <div class="control">
-          <div class="select">
-            <select id="brand-selector">
-              <option value="" disabled selected>Brand</option>
-            </select>
+    <div class="container">
+      <div class="cam-selector">
+        <div class="field">
+          <div class="control">
+            <div class="select">
+              <select id="brand-selector">
+                <option value="" disabled selected>Brand</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <div class="select">
-            <select id="model-selector">
-              <option value="" disabled selected>Model</option>
-            </select>
+        <div class="field">
+          <div class="control">
+            <div class="select">
+              <select id="model-selector">
+                <option value="" disabled selected>Model</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <div class="select">
-            <select id="size-selector">
-              <option value="" disabled selected>Size</option>
-            </select>
+        <div class="field">
+          <div class="control">
+            <div class="select">
+              <select id="size-selector">
+                <option value="" disabled selected>Size</option>
+              </select>
+            </div>
           </div>
         </div>
+        <input class="button is-light" id="submit" type="submit" value="Find matches">
       </div>
-      <input class="button is-light" id="submit" type="submit" value="Find matches">
+      <div class="control unit-selector">
+        <label class="radio">
+          <input type="radio" name="unit" checked>
+          Metric
+        </label>
+        <label class="radio">
+          <input type="radio" name="unit">
+          Imperial
+        </label>
+      </div>
     </div>
   </section>
   <section class='my-section'>
     <div class="container">
-      <table class="table is-fullwidth">
+      <table class="table is-fullwidth is-striped">
       </table>
     </div>
   </section>
