@@ -13,13 +13,18 @@ h1 {
   margin-right: 5px;
 }
 
-td {
+table td {
   width: 200px;
-  align: center;
+  text-align: center;
 }
 
-th {
+.table th {
   width: 100px;
+  text-align: center;
+}
+
+.table tbody th {
+  text-align: left;
 }
 
 img {
@@ -53,7 +58,11 @@ img {
   border-radius: 0 0 4px 0;
 }
 
-.unit-selector {
+table {
+  border-collapse: separate;
+}
+
+#unit-selector {
   float: right;
   margin: 0;
 }

@@ -2,9 +2,18 @@ const table = document.querySelector('table');
 const brandSelector = document.querySelector('#brand-selector');
 const modelSelector = document.querySelector('#model-selector');
 const sizeSelector = document.querySelector('#size-selector');
+const unitSelector = document.querySelector('#unit-selector');
 const submitButton = document.querySelector('#submit');
+const metric = document.querySelector('#metric');
+const imperial = document.querySelector('#imperial');
 let currentResults = JSON.parse(localStorage.getItem('currentResults')) || [];
+let currentUnits = localStorage.getItem('currentUnits') || 'metric';
 
+if (currentUnits==='metric') {
+	metric.checked = true;
+} else {
+	imperial.checked = true;
+}
 renderBrands(camData);
 if (currentResults.length) {
 	renderTable(currentResults);
@@ -12,6 +21,21 @@ if (currentResults.length) {
 
 function findCam (brand, model, id) {
 	return camData[brand][model][id];
+}
+
+function sortMatches(matches, cam) {
+	for (let i=0; i<matches.length-1; i++) {
+		let closest = i;
+		for (let j=i+1; j<matches.length; j++) {
+			if (Math.abs(matches[j].midRange-cam.midRange) < Math.abs(matches[closest].midRange-cam.midRange)) {
+				closest = j;
+			}
+		}
+		let temp = matches[i];
+		matches[i] = matches[closest];
+		matches[closest] = temp;
+	}
+	return matches;
 }
 
 function findMatches(cam) {
@@ -31,15 +55,7 @@ function findMatches(cam) {
 			}
 		}
 	}
-	result.sort(function(a, b) {
-		if (Math.abs(a.midRange-cam.Midrange)<Math.abs(b.midRange-cam.midRange)) {
-			return -1;
-		} else if (Math.abs(a.midRange-cam.Midrange)>Math.abs(b.midRange-cam.midRange)) {
-			return 1;
-		} else {
-			return 0;
-		}
-	});
+	result = sortMatches(result, cam);
 	return [cam].concat(result);
 }
 
@@ -109,7 +125,7 @@ function renderTable(cams) {
 
 	cams.forEach(function(cam, i) {
 		let camName = document.createElement('th');
-		camName.textContent = `${cam.brand} ${cam.model} #${cam.id}`;
+		camName.textContent = `${cam.brand} ${cam.model} ${cam.id}`;
 		if (i===0) {
 			camName.style.borderRight = '1px solid lightgray';
 		}
@@ -125,21 +141,37 @@ function renderTable(cams) {
 		img.appendChild(camImg);
 
 		let camRange = document.createElement('td');
-		camRange.textContent = `${cam.rangeMin} mm - ${cam.rangeMax} mm`;
+		if (imperial.checked) {
+			let min = (cam.rangeMin*0.03937).toFixed(1);
+			let max = (cam.rangeMax*0.03937).toFixed(1);
+			camRange.textContent = `${min} in - ${max} in`;
+		} else {
+			camRange.textContent = `${cam.rangeMin} mm - ${cam.rangeMax} mm`;
+		}
 		if (i===0) {
 			camRange.style.borderRight = '1px solid lightgray';
 		}
 		range.appendChild(camRange);
 
 		let camWeight = document.createElement('td');
-		camWeight.textContent = `${cam.weight} grams`;
+		if (imperial.checked) {
+			let weight = (cam.weight*0.03527).toFixed(1);
+			camWeight.textContent = `${weight} ounces`;
+		} else {
+			camWeight.textContent = `${cam.weight} grams`;
+		}
 		if (i===0) {
 			camWeight.style.borderRight = '1px solid lightgray';
 		}
 		weight.appendChild(camWeight);
 
 		let camStrength = document.createElement('td');
-		camStrength.textContent = `${cam.strength} kN`;
+		if (imperial.checked) {
+			let strength = cam.strength*738;
+			camStrength.textContent = `${strength} lbf`;
+		} else {
+			camStrength.textContent = `${cam.strength} kN`;
+		}
 		if (i===0) {
 			camStrength.style.borderRight = '1px solid lightgray';
 		}
@@ -267,7 +299,7 @@ table.addEventListener('mouseenter', function(event) {
 			event.target.childNodes.forEach(function(node, i) {
 				if (widest.includes(i)) {
 					imageNodes[i-1].style.boxShadow = '0 0 4px gray';
-					node.style.fontWeight = 'bold'
+					node.style.fontWeight = 'bold';
 				}
 			});
 		}
@@ -315,3 +347,9 @@ table.addEventListener('mouseleave', function(event) {
 		event.target.classList.remove('is-selected');
 	}
 }, true);
+
+unitSelector.addEventListener('change', function(event) {
+	renderTable(currentResults);
+	currentUnits = event.target.id;
+	localStorage.setItem('currentUnits', currentUnits);
+});
