@@ -62,6 +62,10 @@ table {
   border-collapse: separate;
 }
 
+thead tr th {
+  background-color: #EEEEEE;
+}
+
 #unit-selector {
   float: right;
   margin: 0;
