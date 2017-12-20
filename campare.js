@@ -6,15 +6,16 @@ const unitSelector = document.querySelector('#unit-selector');
 const submitButton = document.querySelector('#submit');
 const metric = document.querySelector('#metric');
 const imperial = document.querySelector('#imperial');
+
 let currentResults = JSON.parse(localStorage.getItem('currentResults')) || [];
 let currentUnits = localStorage.getItem('currentUnits') || 'metric';
 
+renderBrands(camData);
 if (currentUnits==='metric') {
 	metric.checked = true;
 } else {
 	imperial.checked = true;
 }
-renderBrands(camData);
 if (currentResults.length) {
 	renderTable(currentResults);
 }
@@ -146,7 +147,7 @@ function renderTable(cams) {
 			let max = (cam.rangeMax*0.03937).toFixed(1);
 			camRange.textContent = `${min} in - ${max} in`;
 		} else {
-			camRange.textContent = `${cam.rangeMin} mm - ${cam.rangeMax} mm`;
+			camRange.textContent = `${cam.rangeMin.toFixed(0)}mm - ${cam.rangeMax.toFixed(0)}mm`;
 		}
 		if (i===0) {
 			camRange.style.borderRight = '1px solid lightgray';
